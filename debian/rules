@@ -1,0 +1,50 @@
+#!/usr/bin/make -f
+MAKEFILE = $(firstword $(MAKEFILE_LIST))
+DEBIAN_DIR = $(dir $(MAKEFILE))
+DEBIAN_DIR_ABS = $(abspath $(DEBIAN_DIR))
+TEMP_HOME = $(DEBIAN_DIR_ABS)/homedir/
+
+override_dh_clean:
+	rm -rf $(TEMP_HOME)
+	rm -f ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so
+	dh_clean
+
+override_dh_auto_build:
+	mkdir -p $(TEMP_HOME)
+	HOME=$(TEMP_HOME) ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true 
+
+override_dh_auto_install:
+	HOME=$(TEMP_HOME) ./stage1/mono-msbuild/msbuild mono/build/install.proj /p:MonoInstallPrefix=$(DEBIAN_DIR_ABS)/tmp/usr /p:Configuration=Release-MONO /p:IgnoreDiffFailure=true
+	sed -i "s@$(DEBIAN_DIR_ABS)/tmp@@g" debian/tmp/usr/bin/msbuild
+	find debian/tmp/usr/lib/mono/ -name Microsoft.DiaSymReader.Native.*dll -delete
+	find debian/tmp/usr/lib/mono/ -name *.dylib -delete
+	find debian/tmp/usr/lib/mono/ -name *.so -delete
+
+override_dh_clideps:
+	dh_clideps \
+		--exclude-moduleref=api-ms-win-core-file-l1-1-0.dll \
+		--exclude-moduleref=api-ms-win-core-localization-l1-2-0.dll \
+		--exclude-moduleref=api-ms-win-core-sysinfo-l1-1-0.dll \
+		--exclude-moduleref=api-ms-win-core-sysinfo-l1-2-0.dll \
+		--exclude-moduleref=axnative.dll \
+		--exclude-moduleref=clr \
+		--exclude-moduleref=crypt32.dll \
+		--exclude-moduleref=dbghelp.dll \
+		--exclude-moduleref=fusion \
+		--exclude-moduleref=fusion.dll \
+		--exclude-moduleref=hostfxr \
+		--exclude-moduleref=libc \
+		--exclude-moduleref=Microsoft.DiaSymReader.Native.x86.dll \
+		--exclude-moduleref=Microsoft.DiaSymReader.Native.amd64.dll \
+		--exclude-moduleref=mscoree.dll \
+		--exclude-moduleref=mscorwks.dll \
+		--exclude-moduleref=NTDLL.DLL \
+		--exclude-moduleref=ntdll.dll \
+		--exclude-moduleref=ntdll \
+		--exclude-moduleref=ole32.dll \
+		--exclude-moduleref=Ole32 \
+		--exclude-moduleref=wintrust.dll \
+		--exclude-moduleref=sfc.dll
+
+%:
+	dh --with cli $@ 
