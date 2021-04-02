@@ -1,0 +1,2 @@
+#!/bin/sh
+MONO_GC_PARAMS="nursery-size=64m,$MONO_GC_PARAMS" exec /usr/bin/mono --assembly-loader=strict $MONO_OPTIONS /usr/lib/mono/msbuild/15.0/bin/MSBuild.dll "$@"

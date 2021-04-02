@@ -1,0 +1,36 @@
+name: Push to PPA Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Import GPG
+        uses: crazy-max/ghaction-import-gpg@v3.1.0
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+
+      - name: Install devscripts, debhelper-compat, and dput
+        run: sudo apt install devscripts debhelper-compat dput
+        
+      - name: Initialize offline package
+        run: |
+          chmod +x initializeoffline.sh
+          ./initializeoffline.sh
+        
+      - name: Make original package
+        run: |
+          tar cfv ../msbuild_16.9.orig.tar .
+          xz -9 ../msbuild_16.9.orig.tar
+
+      - name: Build source package
+        run: debuild -S -sa
+        
+      - name: Push to Launchpad
+        run: dput ppa:eofla/msbuild ../msbuild_16.9_source.changes
