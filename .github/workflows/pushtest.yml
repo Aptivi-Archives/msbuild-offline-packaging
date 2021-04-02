@@ -1,4 +1,4 @@
-name: Push to PPA Test
+name: Push to PPA
 
 on:
   workflow_dispatch:
@@ -9,6 +9,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
       
       - name: Import GPG
         uses: crazy-max/ghaction-import-gpg@v3.1.0
