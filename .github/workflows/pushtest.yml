@@ -37,4 +37,4 @@ jobs:
         run: debuild -S -sa
         
       - name: Push to Launchpad
-        run: dput ppa:eofla/msbuild ../msbuild_16.9_source.changes
+        run: dput ppa:eofla/msbuild ../msbuild_16.9-0ppa1_source.changes
