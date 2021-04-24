@@ -139,17 +139,17 @@ echo "  - rm -R nuget"
 rm -R nuget
 echo "  - mkdir artifacts"
 mkdir artifacts
-echo "  - wget --continue --output-document=./offline/artifacts/mono_msbuild_6.4.0.208.zip https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
-wget --continue --output-document="./offline/artifacts/mono_msbuild_6.4.0.208.zip" "https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
+echo "  - wget --continue --output-document=artifacts/mono_msbuild_6.4.0.208.zip https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
+wget --continue --output-document="artifacts/mono_msbuild_6.4.0.208.zip" "https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
 
 # Extract bootstrapped MSBuild
 echo "- Extracting bootstrapped MSBuild..."
-echo "  - unzip -q ./offline/artifacts/mono_msbuild_6.4.0.208.zip -d ./offline/artifacts"
-unzip -q ./offline/artifacts/mono_msbuild_6.4.0.208.zip -d ./offline/artifacts
-echo "  - mv ./offline/artifacts/msbuild ./offline/artifacts/mono-msbuild"
-mv ./offline/artifacts/msbuild ./offline/artifacts/mono-msbuild
-echo "  - chmod +x ./offline/artifacts/mono-msbuild/MSBuild.dll"
-chmod +x ./offline/artifacts/mono-msbuild/MSBuild.dll
+echo "  - unzip -q artifacts/mono_msbuild_6.4.0.208.zip -d artifacts"
+unzip -q artifacts/mono_msbuild_6.4.0.208.zip -d artifacts
+echo "  - mv artifacts/msbuild artifacts/mono-msbuild"
+mv artifacts/msbuild artifacts/mono-msbuild
+echo "  - chmod +x artifacts/mono-msbuild/MSBuild.dll"
+chmod +x artifacts/mono-msbuild/MSBuild.dll
 
 echo "- Build using \"./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true\" from the \"msbuild\" directory."
 echo "- For Launchpad PPAs and general Ubuntu package builds, change \"preview\" in \"debian/changelog\" to \"focal\" or any Ubuntu codename."
