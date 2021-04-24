@@ -104,8 +104,8 @@ patch -i offline/offline.patch linux-packaging-msbuild/eng/common/tools.sh
 echo "- Restoring packages..."
 echo "  - cd linux-packaging-msbuild"
 cd linux-packaging-msbuild
-echo "  - HOME=`pwd`/nuget ./eng/common/build.sh --configuration Release --restore"
-HOME=`pwd`/nuget ./eng/common/build.sh --configuration Release --restore
+echo "  - HOME=`pwd`/nuget ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true"
+HOME=`pwd`/nuget ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true
 if [ "$?" -ne 0 ]; then
 	exit $?
 fi
