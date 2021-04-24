@@ -24,4 +24,6 @@ jobs:
           ./initializeoffline.sh
         
       - name: Try to build
-        run: sudo ip netns exec no-net ./linux-packaging-msbuild/eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true
+        run: |
+          cd linux-packaging-msbuild
+          sudo ip netns exec no-net ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true
