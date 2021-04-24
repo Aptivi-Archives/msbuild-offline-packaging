@@ -1,0 +1,27 @@
+name: Test building
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      - name: Install required packages
+        run: |
+          sudo apt update
+          sudo apt install curl locales-all cli-common-dev libunwind8-dev libcurl4-openssl-dev
+        
+      - name: Initialize offline package
+        run: |
+          sudo ip netns add no-net
+          chmod +x initializeoffline.sh
+          ./initializeoffline.sh
+        
+      - name: Try to build
+        run: sudo ip netns exec no-net ./linux-packaging-msbuild/eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true
