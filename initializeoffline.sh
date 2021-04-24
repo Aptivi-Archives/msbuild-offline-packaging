@@ -81,8 +81,8 @@ fi
 
 # Some fixups
 echo "- Making a copy of LICENSE under the name of license..."
-echo "  - cp msbuild/LICENSE linux-packaging-msbuild/license"
-cp msbuild/LICENSE linux-packaging-msbuild/license
+echo "  - cp linux-packaging-msbuild/LICENSE linux-packaging-msbuild/license"
+cp linux-packaging-msbuild/LICENSE linux-packaging-msbuild/license
 echo "- Removing stray debian folder from linux-packaging-msbuild..."
 echo "  - rm -R linux-packaging-msbuild/debian"
 rm -R linux-packaging-msbuild/debian
