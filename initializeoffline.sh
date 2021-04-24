@@ -62,12 +62,6 @@ if [ ! -e "./offline/.dotnet/dep/Runtime/2.1.7/" ]; then
         echo "  - .dotnet/dep/Runtime/2.1.7 not found. creating..."
         mkdir "./offline/.dotnet/dep/Runtime/2.1.7"
 fi
-# artifacts
-echo "  - artifacts/..."
-if [ ! -e "./offline/artifacts" ]; then
-	echo "  - artifacts/ not found. creating..."
-	mkdir "./offline/artifacts"
-fi
 
 # Check for required files
 echo "- Determining what files to download..."
@@ -84,12 +78,6 @@ if [ ! -e "./offline/.dotnet/dep/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.ta
 	echo "  - dotnet-runtime-2.1.7-linux-x64.tar.gz not found. downloading..."
 	wget --continue --output-document="./offline/.dotnet/dep/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.tar.gz" "https://dotnetcli.azureedge.net/dotnet/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.tar.gz"
 fi
-# artifacts/mono_msbuild_6.4.0.208.zip
-echo "  - artifacts/mono_msbuild_6.4.0.208.zip..."
-if [ ! -e "./offline/artifacts/mono_msbuild_6.4.0.208.zip" ]; then
-	echo "  - mono_msbuild_6.4.0.208.zip not found. downloading..."
-	wget --continue --output-document="./offline/artifacts/mono_msbuild_6.4.0.208.zip" "https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
-fi
 
 # Some fixups
 echo "- Making a copy of LICENSE under the name of license..."
@@ -98,15 +86,6 @@ cp msbuild/LICENSE linux-packaging-msbuild/license
 echo "- Removing stray debian folder from linux-packaging-msbuild..."
 echo "  - rm -R linux-packaging-msbuild/debian"
 rm -R linux-packaging-msbuild/debian
-
-# Extract bootstrapped MSBuild
-echo "- Extracting bootstrapped MSBuild..."
-echo "  - unzip -q ./offline/artifacts/mono_msbuild_6.4.0.208.zip -d ./offline/artifacts"
-unzip -q ./offline/artifacts/mono_msbuild_6.4.0.208.zip -d ./offline/artifacts
-echo "  - mv ./offline/artifacts/msbuild ./offline/artifacts/mono-msbuild"
-mv ./offline/artifacts/msbuild ./offline/artifacts/mono-msbuild
-echo "  - chmod +x ./offline/artifacts/mono-msbuild/MSBuild.dll"
-chmod +x ./offline/artifacts/mono-msbuild/MSBuild.dll
 
 # Copy required files from offline to linux-packaging-msbuild
 echo "- Copying .dotnet..."
@@ -158,6 +137,19 @@ echo "  - rm -R artifacts"
 rm -R artifacts
 echo "  - rm -R nuget"
 rm -R nuget
+echo "  - mkdir artifacts"
+mkdir artifacts
+echo "  - wget --continue --output-document=./offline/artifacts/mono_msbuild_6.4.0.208.zip https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
+wget --continue --output-document="./offline/artifacts/mono_msbuild_6.4.0.208.zip" "https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
+
+# Extract bootstrapped MSBuild
+echo "- Extracting bootstrapped MSBuild..."
+echo "  - unzip -q ./offline/artifacts/mono_msbuild_6.4.0.208.zip -d ./offline/artifacts"
+unzip -q ./offline/artifacts/mono_msbuild_6.4.0.208.zip -d ./offline/artifacts
+echo "  - mv ./offline/artifacts/msbuild ./offline/artifacts/mono-msbuild"
+mv ./offline/artifacts/msbuild ./offline/artifacts/mono-msbuild
+echo "  - chmod +x ./offline/artifacts/mono-msbuild/MSBuild.dll"
+chmod +x ./offline/artifacts/mono-msbuild/MSBuild.dll
 
 echo "- Build using \"./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true\" from the \"msbuild\" directory."
 echo "- For Launchpad PPAs and general Ubuntu package builds, change \"preview\" in \"debian/changelog\" to \"focal\" or any Ubuntu codename."
