@@ -6,27 +6,19 @@ TEMP_HOME = $(DEBIAN_DIR_ABS)/homedir/
 
 override_dh_clean:
 	rm -rf $(TEMP_HOME)
+	rm -f ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so
 	dh_clean
 
 override_dh_auto_build:
-	# The Mono guys used cibuild_bootstrapped_msbuild.sh to get MSBuild to build itself.
-	# However, it doesn't work in Microsoft's MSBuild as it tries to call "msbuild". What
-	# if it was run on a schroot? Offending command:
-	# HOME=$(TEMP_HOME) ./msbuild/eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release /p:DisableNerdbankVersioning=true /p:Test=false
 	mkdir -p $(TEMP_HOME)
-	HOME=$(TEMP_HOME) ./msbuild/build.sh --restore --build --configuration Release-MONO /p:DisableNerdbankVersioning=true
+	HOME=$(TEMP_HOME) ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true
 
 override_dh_auto_install:
-	mkdir -p debian/tmp/usr/bin
-	mkdir -p debian/tmp/usr/lib/mono/msbuild/Current/bin
-	mkdir -p debian/tmp/usr/lib/mono/xbuild/Current
-	mkdir -p debian/tmp/usr/lib/mono/xbuild/Microsoft
-	ln -s Current debian/tmp/usr/lib/mono/msbuild/15.0
-	ln -s Current debian/tmp/usr/lib/mono/xbuild/15.0
-	cp debian/msbuild_init debian/tmp/usr/bin/msbuild
-	cp -R msbuild/artifacts/bin/MSBuild/Release-MONO/net472/* debian/tmp/usr/lib/mono/msbuild/Current/bin/
-	cp msbuild/artifacts/bin/MSBuild/Release-MONO/net472/Microsoft.VisualStudioVersion.*.Common.props debian/tmp/usr/lib/mono/xbuild/Current/
-	cp msbuild/artifacts/bin/MSBuild/Release-MONO/net472/Microsoft.Common.props debian/tmp/usr/lib/mono/xbuild/Current/
+	HOME=$(TEMP_HOME) ./stage1/mono-msbuild/msbuild mono/build/install.proj /p:MonoInstallPrefix=$(DEBIAN_DIR_ABS)/tmp/usr /p:Configuration=Release-MONO /p:IgnoreDiffFailure=true
+	sed -i "s@$(DEBIAN_DIR_ABS)/tmp@@g" debian/tmp/usr/bin/msbuild
+	find debian/tmp/usr/lib/mono/ -name Microsoft.DiaSymReader.Native.*dll -delete
+	find debian/tmp/usr/lib/mono/ -name *.dylib -delete
+	find debian/tmp/usr/lib/mono/ -name *.so -delete
 
 override_dh_clideps:
 	dh_clideps \

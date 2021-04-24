@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: msbuild
-Source: <https://github.com/mono/msbuild/tree/xplat-c9>
+Source: <https://github.com/mono/msbuild/>
 
 Files: *
 Copyright: 2015 Microsoft

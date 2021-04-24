@@ -30,11 +30,11 @@ jobs:
         
       - name: Make original package
         run: |
-          tar cfv ../msbuild_16.9.orig.tar .
-          xz -9 ../msbuild_16.9.orig.tar
+          tar cfv ../msbuild_16.9.11.orig.tar .
+          xz -9 ../msbuild_16.9.11.orig.tar
 
       - name: Build source package
         run: debuild -S -sa
         
       - name: Push to Launchpad
-        run: dput ppa:eofla/msbuild ../msbuild_16.9_source.changes
+        run: dput ppa:eofla/msbuild ../msbuild_16.9.11_source.changes

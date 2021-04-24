@@ -1,4 +1,3 @@
-[submodule "msbuild"]
-	path = msbuild
-	url = https://github.com/dotnet/msbuild.git
-	branch = vs16.9
+[submodule "linux-packaging-msbuild"]
+	path = linux-packaging-msbuild
+	url = https://github.com/mono/linux-packaging-msbuild

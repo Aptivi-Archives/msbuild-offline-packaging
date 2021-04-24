@@ -11,9 +11,9 @@ if [ "$1" == "--generate-essentials-archive" ]; then
 fi
 
 # Source ./eng/common/tools.sh
-echo "- Sourcing ./msbuild/eng/common/tools.sh..."
-echo "  - . ./msbuild/eng/common/tools.sh"
-. ./msbuild/eng/common/tools.sh
+echo "- Sourcing ./linux-packaging-msbuild/eng/common/tools.sh..."
+echo "  - . ./linux-packaging-msbuild/eng/common/tools.sh"
+. ./linux-packaging-msbuild/eng/common/tools.sh
 
 # Check for components inside ./offline folder
 echo "- Checking ./offline/ folder to see if required components exist..."
@@ -62,6 +62,12 @@ if [ ! -e "./offline/.dotnet/dep/Runtime/2.1.7/" ]; then
         echo "  - .dotnet/dep/Runtime/2.1.7 not found. creating..."
         mkdir "./offline/.dotnet/dep/Runtime/2.1.7"
 fi
+# artifacts
+echo "  - artifacts/..."
+if [ ! -e "./offline/artifacts" ]; then
+	echo "  - artifacts/ not found. creating..."
+	mkdir "./offline/artifacts"
+fi
 
 # Check for required files
 echo "- Determining what files to download..."
@@ -78,34 +84,55 @@ if [ ! -e "./offline/.dotnet/dep/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.ta
 	echo "  - dotnet-runtime-2.1.7-linux-x64.tar.gz not found. downloading..."
 	wget --continue --output-document="./offline/.dotnet/dep/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.tar.gz" "https://dotnetcli.azureedge.net/dotnet/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.tar.gz"
 fi
+# artifacts/mono_msbuild_6.4.0.208.zip
+echo "  - artifacts/mono_msbuild_6.4.0.208.zip..."
+if [ ! -e "./offline/artifacts/mono_msbuild_6.4.0.208.zip" ]; then
+	echo "  - mono_msbuild_6.4.0.208.zip not found. downloading..."
+	wget --continue --output-document="./offline/artifacts/mono_msbuild_6.4.0.208.zip" "https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
+fi
 
 # Some fixups
 echo "- Making a copy of LICENSE under the name of license..."
-echo "  - cp msbuild/LICENSE msbuild/license"
-cp msbuild/LICENSE msbuild/license
+echo "  - cp msbuild/LICENSE linux-packaging-msbuild/license"
+cp msbuild/LICENSE linux-packaging-msbuild/license
+echo "- Removing stray debian folder from linux-packaging-msbuild..."
+echo "  - rm -R linux-packaging-msbuild/debian"
+rm -R linux-packaging-msbuild/debian
 
-# Copy required files from offline to msbuild
+# Extract bootstrapped MSBuild
+echo "- Extracting bootstrapped MSBuild..."
+echo "  - unzip -q ./offline/artifacts/mono_msbuild_6.4.0.208.zip -d ./offline/artifacts"
+unzip -q ./offline/artifacts/mono_msbuild_6.4.0.208.zip -d ./offline/artifacts
+echo "  - mv ./offline/artifacts/msbuild ./offline/artifacts/mono-msbuild"
+mv ./offline/artifacts/msbuild ./offline/artifacts/mono-msbuild
+echo "  - chmod +x ./offline/artifacts/mono-msbuild/MSBuild.dll"
+chmod +x ./offline/artifacts/mono-msbuild/MSBuild.dll
+
+# Copy required files from offline to linux-packaging-msbuild
 echo "- Copying .dotnet..."
-echo "  - cp -R offline/.dotnet msbuild/"
-cp -R offline/.dotnet msbuild/
+echo "  - cp -R offline/.dotnet linux-packaging-msbuild/"
+cp -R offline/.dotnet linux-packaging-msbuild/
+echo "- Copying artifacts..."
+echo "  - cp -R offline/artifacts linux-packaging-msbuild/"
+cp -R offline/artifacts linux-packaging-msbuild/
 
 # Patch tools.sh to use "--azure-feed "$root/dep" --uncached-feed "$root/dep""
 echo "- Patching tools.sh..."
-echo "  - patch -i offline/offline.patch msbuild/eng/common/tools.sh"
-patch -i offline/offline.patch msbuild/eng/common/tools.sh
+echo "  - patch -i offline/offline.patch linux-packaging-msbuild/eng/common/tools.sh"
+patch -i offline/offline.patch linux-packaging-msbuild/eng/common/tools.sh
 
 # Restore packages
 echo "- Restoring packages..."
-echo "  - cd msbuild"
-cd msbuild
-echo "  - HOME=`pwd`/nuget ./eng/common/build.sh --configuration Release-MONO --restore"
-HOME=`pwd`/nuget ./eng/common/build.sh --configuration Release-MONO --restore
+echo "  - cd linux-packaging-msbuild"
+cd linux-packaging-msbuild
+echo "  - HOME=`pwd`/nuget ./eng/common/build.sh --configuration Release --restore"
+HOME=`pwd`/nuget ./eng/common/build.sh --configuration Release --restore
 if [ "$?" -ne 0 ]; then
 	exit $?
 fi
 
-# Copy dependencies to msbuild/deps
-echo "- Copying dependencies to msbuild/deps..."
+# Copy dependencies to linux-packaging-msbuild/deps
+echo "- Copying dependencies to linux-packaging-msbuild/deps..."
 echo "  - mkdir deps"
 mkdir deps
 echo "  - cp -R ./nuget/.nuget/packages/* ./deps/"
@@ -132,7 +159,7 @@ rm -R artifacts
 echo "  - rm -R nuget"
 rm -R nuget
 
-echo "- Build using \"./msbuild/build.sh --restore --build --configuration Release-MONO /p:DisableNerdbankVersioning=true\" from the \"msbuild\" directory."
+echo "- Build using \"./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true\" from the \"msbuild\" directory."
 echo "- For Launchpad PPAs and general Ubuntu package builds, change \"preview\" in \"debian/changelog\" to \"focal\" or any Ubuntu codename."
 echo "- You may want to run \"dch -U\" to sign your custom msbuild package changelog."
 echo "- Use \"debuild -S -sa\" to build source package for \"sbuild\"."

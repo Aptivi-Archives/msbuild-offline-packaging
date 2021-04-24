@@ -6,4 +6,4 @@ This is a new iteration for MSBuild offline packaging. To initialize the offline
 2. Fetch the submodules by running `git submodule update --init`
 3. Run initializeoffline.sh
 
-To build MSBuild offline, use `./build.sh --restore --build --configuration Release-MONO /p:DisableNerdbankVersioning=true` from the msbuild directory.
+To build MSBuild offline, use `./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true` from the linux-packaging-msbuild directory.

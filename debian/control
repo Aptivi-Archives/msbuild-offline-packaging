@@ -1,7 +1,7 @@
 Source: msbuild
 Section: devel
 Priority: optional
-Maintainer: Jo Shields <joshield@microsoft.com>
+Maintainer: EoflaOE <eoflaoevicecity@gmail.com>
 Build-Depends: debhelper (>=7.0.50~), mono-devel (>= 4.0), cli-common-dev,
 	curl, unzip, libunwind8-dev, libicu-dev, ca-certificates-mono,
 	libcurl4-openssl-dev, coreutils, openssl, locales, libicu66
