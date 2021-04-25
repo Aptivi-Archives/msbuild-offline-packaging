@@ -91,9 +91,6 @@ rm -R linux-packaging-msbuild/debian
 echo "- Copying .dotnet..."
 echo "  - cp -R offline/.dotnet linux-packaging-msbuild/"
 cp -R offline/.dotnet linux-packaging-msbuild/
-echo "- Copying artifacts..."
-echo "  - cp -R offline/artifacts linux-packaging-msbuild/"
-cp -R offline/artifacts linux-packaging-msbuild/
 
 # Patch tools.sh to use "--azure-feed "$root/dep" --uncached-feed "$root/dep""
 echo "- Patching tools.sh..."
@@ -126,10 +123,13 @@ if [ ${generate_essentials_tar_xz} == true ]; then
 	xz -9 ../Essentials.tar
 fi
 
-# Patch NuGet.config for offline use
+# Patch NuGet.config and get_sdk_files.sh for offline use
 echo "- Patching NuGet.config..."
 echo "  - patch -i ../offline/nuget.patch NuGet.config"
 patch -i ../offline/nuget.patch NuGet.config
+echo "- Patching get_sdk_files.sh..."
+echo "  - patch -i ../offline/offline2.patch mono/build/get_sdk_files.sh"
+patch -i ../offline/offline2.patch mono/build/get_sdk_files.sh
 
 # Cleaning up
 echo "- Cleaning up..."
@@ -137,6 +137,12 @@ echo "  - rm -R artifacts"
 rm -R artifacts
 echo "  - rm -R nuget"
 rm -R nuget
+echo "  - rm -R stage1"
+rm -R stage1
+echo "  - rm -R .packages"
+rm -R .packages
+echo "  - rm -R mono/dotnet-overlay"
+rm -R mono/dotnet-overlay
 echo "  - mkdir artifacts"
 mkdir artifacts
 echo "  - wget --continue --output-document=artifacts/mono_msbuild_6.4.0.208.zip https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"

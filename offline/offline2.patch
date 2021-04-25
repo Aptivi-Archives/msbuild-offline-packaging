@@ -1,0 +1,13 @@
+--- get_sdk_files.sh.orig	2021-04-24 20:24:38.924977000 +0300
++++ get_sdk_files.sh	2021-04-25 07:55:00.148953225 +0300
+@@ -23,8 +23,9 @@
+ OLDCWD=`pwd`
+ cd $TMPDIR
+ 
++cp $THIS_DIR/../../.dotnet/dotnet-install.sh $TMPDIR
+ GetDotNetInstallScript $TMPDIR
+-bash ./dotnet-install.sh --version $dotnet_sdk_version --install-dir $DOTNET_DIR --architecture x64 --skip-non-versioned-files
++bash ./dotnet-install.sh --version $dotnet_sdk_version --install-dir $DOTNET_DIR --architecture x64 --skip-non-versioned-files --azure-feed "$THIS_DIR/../../.dotnet/dep" --uncached-feed "$THIS_DIR/../../.dotnet/dep"
+ find $DOTNET_DIR -name Microsoft.NETCoreSdk.BundledVersions.props -exec cp -v {} $1 \;
+ find $DOTNET_DIR -name RuntimeIdentifierGraph.json -exec cp -v {} $1 \;
+ 
