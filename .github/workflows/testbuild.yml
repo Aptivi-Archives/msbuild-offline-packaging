@@ -27,3 +27,7 @@ jobs:
         run: |
           cd linux-packaging-msbuild
           sudo ip netns exec no-net ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true
+          
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
