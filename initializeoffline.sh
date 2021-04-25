@@ -151,6 +151,8 @@ echo "  - mkdir artifacts"
 mkdir artifacts
 echo "  - wget --continue --output-document=artifacts/mono_msbuild_6.4.0.208.zip https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
 wget --continue --output-document="artifacts/mono_msbuild_6.4.0.208.zip" "https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
+echo "  - cp -R offline/.dotnet linux-packaging-msbuild/"
+cp -R offline/.dotnet linux-packaging-msbuild/
 
 # Extract bootstrapped MSBuild
 echo "- Extracting bootstrapped MSBuild..."
