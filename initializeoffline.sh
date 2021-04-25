@@ -87,8 +87,8 @@ echo "- Removing stray debian folder from linux-packaging-msbuild..."
 echo "  - rm -R linux-packaging-msbuild/debian"
 rm -R linux-packaging-msbuild/debian
 echo "- Fixing \"bashisms\"..."
-echo "  - patch -d linux-packaging-msbuild -i offline/fix_bashisms.patch -p 1"
-patch -d linux-packaging-msbuild -i offline/fix_bashisms.patch -p 1
+echo "  - patch -d linux-packaging-msbuild -i `pwd`/offline/fix_bashisms.patch -p 1"
+patch -d linux-packaging-msbuild -i `pwd`/offline/fix_bashisms.patch -p 1
 
 # Copy required files from offline to linux-packaging-msbuild
 echo "- Copying .dotnet..."
