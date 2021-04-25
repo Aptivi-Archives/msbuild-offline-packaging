@@ -148,10 +148,6 @@ echo "  - rm -R .packages"
 rm -R .packages
 echo "  - rm -R mono/dotnet-overlay"
 rm -R mono/dotnet-overlay
-echo "  - rm -Rf ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver"
-rm -Rf ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver
-echo "  - rm -f ./mono/build/SdkVersions.txt"
-rm -f ./mono/build/SdkVersions.txt
 echo "  - mkdir artifacts"
 mkdir artifacts
 echo "  - wget --continue --output-document=artifacts/mono_msbuild_6.4.0.208.zip https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
@@ -165,6 +161,8 @@ echo "  - mv artifacts/msbuild artifacts/mono-msbuild"
 mv artifacts/msbuild artifacts/mono-msbuild
 echo "  - chmod +x artifacts/mono-msbuild/MSBuild.dll"
 chmod +x artifacts/mono-msbuild/MSBuild.dll
+echo "  - rm -Rf artifacts/mono-msbuild/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver"
+rm -Rf artifacts/mono-msbuild/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver
 
 echo "- Build using \"./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true\" from the \"msbuild\" directory."
 echo "- For Launchpad PPAs and general Ubuntu package builds, change \"preview\" in \"debian/changelog\" to \"focal\" or any Ubuntu codename."
