@@ -148,6 +148,8 @@ echo "  - rm -R .packages"
 rm -R .packages
 echo "  - rm -R mono/dotnet-overlay"
 rm -R mono/dotnet-overlay
+echo "  - rm -Rf ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver"
+rm -Rf ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver
 echo "  - rm -f ./mono/build/SdkVersions.txt"
 rm -f ./mono/build/SdkVersions.txt
 echo "  - mkdir artifacts"
