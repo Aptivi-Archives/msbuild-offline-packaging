@@ -112,8 +112,8 @@ echo "- Copying dependencies to linux-packaging-msbuild/deps..."
 echo "  - mkdir deps"
 mkdir deps
 echo "  - cp -R ./nuget/.nuget/packages/* ./deps/"
-cp -R ./.packages/* ./deps/
-echo "  - cp -R ./nuget/.nuget/packages/* ./deps/"
+cp -R ./nuget/.nuget/packages/* ./deps/
+echo "  - cp -R ./.packages/* ./deps/"
 cp -R ./.packages/* ./deps/
 
 # Compressing essential packages
