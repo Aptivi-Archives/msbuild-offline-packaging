@@ -135,16 +135,21 @@ patch -i ../offline/offline2.patch mono/build/get_sdk_files.sh
 
 # Cleaning up
 echo "- Cleaning up..."
+echo "  - rm -R artifacts"
+rm -R artifacts
 echo "  - rm -R nuget"
 rm -R nuget
 echo "  - rm -R stage1"
 rm -R stage1
 echo "  - rm -R .packages"
 rm -R .packages
+echo "  - rm -R mono/dotnet-overlay"
+rm -R mono/dotnet-overlay
 echo "  - rm -f ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so"
 rm -f ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so
 echo "  - wget --continue --output-document=artifacts/mono_msbuild_6.4.0.208.zip https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
 wget --continue --output-document="artifacts/mono_msbuild_6.4.0.208.zip" "https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
+git status
 
 # Extract bootstrapped MSBuild
 echo "- Extracting bootstrapped MSBuild..."
