@@ -148,8 +148,6 @@ echo "  - rm -R .packages"
 rm -R .packages
 echo "  - rm -R mono/dotnet-overlay"
 rm -R mono/dotnet-overlay
-echo "  - rm -f ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so"
-rm -f ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so
 echo "  - rm -f ./mono/build/SdkVersions.txt"
 rm -f ./mono/build/SdkVersions.txt
 echo "  - mkdir artifacts"
