@@ -6,19 +6,25 @@ TEMP_HOME = $(DEBIAN_DIR_ABS)/homedir/
 
 override_dh_clean:
 	rm -rf $(TEMP_HOME)
-	rm -f ./mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so
+	rm -f ./linux-packaging-msbuild/mono/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so
 	dh_clean
 
 override_dh_auto_build:
 	mkdir -p $(TEMP_HOME)
+	cd linux-packaging-msbuild
 	HOME=$(TEMP_HOME) ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true
+	cd ..
 
 override_dh_auto_install:
+	cd linux-packaging-msbuild
 	HOME=$(TEMP_HOME) ./stage1/mono-msbuild/msbuild mono/build/install.proj /p:MonoInstallPrefix=$(DEBIAN_DIR_ABS)/tmp/usr /p:Configuration=Release-MONO /p:IgnoreDiffFailure=true
 	sed -i "s@$(DEBIAN_DIR_ABS)/tmp@@g" debian/tmp/usr/bin/msbuild
 	find debian/tmp/usr/lib/mono/ -name Microsoft.DiaSymReader.Native.*dll -delete
 	find debian/tmp/usr/lib/mono/ -name *.dylib -delete
 	find debian/tmp/usr/lib/mono/ -name *.so -delete
+	cd ..
+	tar xfvz offline/.dotnet/dep/Sdk/3.1.100/dotnet-sdk-3.1.100-linux-x64.tar.gz ./host/fxr/3.1.0/libhostfxr.so
+	mv host/fxr/3.1.0/libhostfxr.so $(DEBIAN_DIR_ABS)/tmp/usr/lib/mono/msbuild/Current/bin/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so
 
 override_dh_clideps:
 	dh_clideps \
