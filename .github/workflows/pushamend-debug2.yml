@@ -1,4 +1,4 @@
-name: Push to PPA (amend with original source)
+name: Push to PPA (amend with original source) (Debug level 2 for validation)
 
 on:
   workflow_dispatch:
