@@ -1,4 +1,4 @@
-name: Push to PPA
+name: Push to PPA (Debug)
 
 on:
   workflow_dispatch:
@@ -41,3 +41,7 @@ jobs:
         
       - name: Push to Launchpad
         run: dput ppa:eofla/msbuild ../msbuild_16.9.12-0ppa1_source.changes
+        
+      - name: Setup tmate session for debug failure
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3

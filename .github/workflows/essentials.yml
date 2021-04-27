@@ -1,4 +1,4 @@
-name: Test building
+name: Push essentials package to artifacts
 
 on:
   workflow_dispatch:
@@ -21,9 +21,12 @@ jobs:
         run: |
           sudo ip netns add no-net
           chmod +x initializeoffline.sh
-          ./initializeoffline.sh
+          ./initializeoffline.sh --generate-essentials-archive
         
-      - name: Try to build
-        run: |
-          cd linux-packaging-msbuild
-          sudo ip netns exec no-net ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true
+      - name: Upload essentials to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Essentials
+          path: |
+            Essentials.tar.xz
+            offline/.dotnet
