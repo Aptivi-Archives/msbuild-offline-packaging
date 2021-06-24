@@ -150,13 +150,13 @@ echo "  - rm -R mono/dotnet-overlay"
 rm -R mono/dotnet-overlay
 echo "  - mkdir artifacts"
 mkdir artifacts
-echo "  - wget --continue --output-document=artifacts/mono_msbuild_6.4.0.208.zip https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
-wget --continue --output-document="artifacts/mono_msbuild_6.4.0.208.zip" "https://github.com/mono/msbuild/releases/download/0.08/mono_msbuild_6.4.0.208.zip"
+echo "  - wget --continue --output-document=artifacts/mono_msbuild_6.12.0.137.zip https://github.com/mono/msbuild/releases/download/v16.9.0/mono_msbuild_6.12.0.137.zip"
+wget --continue --output-document="artifacts/mono_msbuild_6.12.0.137.zip" "https://github.com/mono/msbuild/releases/download/v16.9.0/mono_msbuild_6.12.0.137.zip"
 
 # Extract bootstrapped MSBuild
 echo "- Extracting bootstrapped MSBuild..."
-echo "  - unzip -q artifacts/mono_msbuild_6.4.0.208.zip -d artifacts"
-unzip -q artifacts/mono_msbuild_6.4.0.208.zip -d artifacts
+echo "  - unzip -q artifacts/mono_msbuild_6.12.0.137.zip -d artifacts"
+unzip -q artifacts/mono_msbuild_6.12.0.137.zip -d artifacts
 echo "  - mv artifacts/msbuild artifacts/mono-msbuild"
 mv artifacts/msbuild artifacts/mono-msbuild
 echo "  - chmod +x artifacts/mono-msbuild/MSBuild.dll"
