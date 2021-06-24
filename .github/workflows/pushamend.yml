@@ -24,10 +24,10 @@ jobs:
           sudo apt install devscripts debhelper-compat dput curl locales-all cli-common-dev libunwind8-dev libcurl4-openssl-dev
         
       - name: Download original source
-        run: wget --output-document=../msbuild-roslyn_16.9.12.orig.tar.xz https://launchpad.net/~eofla/+archive/ubuntu/msbuild/+sourcefiles/msbuild-roslyn/16.9.12-0ppa1/msbuild-roslyn_16.9.12.orig.tar.xz
+        run: wget --output-document=../msbuild-roslyn_16.10.1.orig.tar.xz https://launchpad.net/~eofla/+archive/ubuntu/msbuild/+sourcefiles/msbuild-roslyn/16.10.1-0ppa1/msbuild-roslyn_16.10.1.orig.tar.xz
 
       - name: Build source package
         run: debuild -S
         
       - name: Push to Launchpad
-        run: dput ppa:eofla/msbuild ../msbuild-roslyn_16.9.12-0ppa2_source.changes
+        run: dput ppa:eofla/msbuild ../msbuild-roslyn_16.10.1-0ppa2_source.changes

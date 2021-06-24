@@ -35,15 +35,15 @@ jobs:
         run: |
           mv debian ..
           mv .github ..
-          tar cfv ../msbuild_16.9.12.orig.tar .
-          xz -9 ../msbuild_16.9.12.orig.tar
+          tar cfv ../msbuild_16.10.1.orig.tar .
+          xz -9 ../msbuild_16.10.1.orig.tar
           mv ../debian .
 
       - name: Build source package
         run: debuild -S -sa
         
       - name: Push to Launchpad
-        run: dput ppa:eofla/msbuild ../msbuild_16.9.12-0ppa1_source.changes
+        run: dput ppa:eofla/msbuild ../msbuild_16.10.1-0ppa1_source.changes
         
       - name: Setup tmate session for debug failure
         if: ${{ failure() }}

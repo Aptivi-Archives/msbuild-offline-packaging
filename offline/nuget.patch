@@ -1,6 +1,6 @@
---- NuGet.config.orig	2021-04-24 15:13:07.635495000 +0300
-+++ NuGet.config	2021-04-24 15:33:02.319511470 +0300
-@@ -2,11 +2,11 @@
+--- NuGet.config.orig	2021-06-23 14:51:55.507710000 +0300
++++ NuGet.config	2021-06-23 14:56:38.257018512 +0300
+@@ -2,12 +2,12 @@
  <configuration>
    <packageSources>
      <clear />
@@ -9,11 +9,13 @@
 -    <add key="dotnet-tools" value="https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json" />
 -    <add key="dotnet3.1-symbols" value="https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet3.1-symbols/nuget/v3/index.json" />
 -    <add key="dotnet5" value="https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json" />
+-    <add key="dotnet5-transport" value="https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5-transport/nuget/v3/index.json" />
 +    <add key="arcade" value="./deps" />
 +    <add key="dotnet-public" value="./deps" />
 +    <add key="dotnet-tools" value="./deps" />
 +    <add key="dotnet3.1-symbols" value="./deps" />
 +    <add key="dotnet5" value="./deps" />
++    <add key="dotnet5-transport" value="./deps" />
    </packageSources>
    <disabledPackageSources />
  </configuration>

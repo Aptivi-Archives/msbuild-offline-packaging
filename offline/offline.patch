@@ -1,11 +1,11 @@
---- tools.sh.orig	2021-04-24 15:13:07.643495000 +0300
-+++ tools.sh	2021-04-24 15:30:32.631509525 +0300
-@@ -198,7 +198,7 @@
-   if [[ "$#" -ge "5" ]]; then
+--- tools.sh.orig	2021-06-23 14:51:55.515714000 +0300
++++ tools.sh	2021-06-23 14:58:24.814271903 +0300
+@@ -200,7 +200,7 @@
+   if [[ "$#" -ge "5" ]] && [[ "$5" != 'false' ]]; then
      skipNonVersionedFilesArg="--skip-non-versioned-files"
    fi
 -  bash "$install_script" --version $version --install-dir "$root" $archArg $runtimeArg $skipNonVersionedFilesArg || {
 +  bash "$install_script" --version $version --install-dir "$root" --azure-feed "$root/dep" --uncached-feed "$root/dep" $archArg $runtimeArg $skipNonVersionedFilesArg || {
      local exit_code=$?
-     Write-PipelineTelemetryError -category 'InitializeToolset' "Failed to install dotnet SDK from public location (exit code '$exit_code')."
+     echo "Failed to install dotnet SDK from public location (exit code '$exit_code')."
  
