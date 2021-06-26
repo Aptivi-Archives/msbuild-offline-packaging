@@ -19,8 +19,8 @@ override_dh_auto_install:
 	find debian/tmp/usr/lib/mono/ -name Microsoft.DiaSymReader.Native.*dll -delete
 	find debian/tmp/usr/lib/mono/ -name *.dylib -delete
 	find debian/tmp/usr/lib/mono/ -name *.so -delete
-	tar xfvz offline/.dotnet/dep/Sdk/3.1.100/dotnet-sdk-3.1.100-linux-x64.tar.gz ./host/fxr/3.1.0/libhostfxr.so
-	mv host/fxr/3.1.0/libhostfxr.so $(DEBIAN_DIR_ABS)/tmp/usr/lib/mono/msbuild/Current/bin/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so
+	tar xfvz offline/.dotnet/dep/Sdk/5.0.102/dotnet-sdk-5.0.102-linux-x64.tar.gz ./host/fxr/5.0.2/libhostfxr.so
+	mv host/fxr/5.0.2/libhostfxr.so $(DEBIAN_DIR_ABS)/tmp/usr/lib/mono/msbuild/Current/bin/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/libhostfxr.so
 
 override_dh_clideps:
 	dh_clideps \
