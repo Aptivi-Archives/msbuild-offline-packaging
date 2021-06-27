@@ -28,6 +28,7 @@ jobs:
           wget --output-document=../msbuild_16.10.1.orig.tar.xz https://launchpad.net/~eofla/+archive/ubuntu/msbuild/+sourcefiles/msbuild/1:16.10.1-0ppa1/msbuild_16.10.1.orig.tar.xz
           tar xf ../msbuild_16.10.1.orig.tar.xz ./linux-packaging-msbuild
           mv .github ..
+          ./initializeamend.sh
 
       - name: Build source package
         run: debuild -S
