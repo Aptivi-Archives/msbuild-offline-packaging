@@ -30,6 +30,9 @@ jobs:
           mv .github ..
           ./initializeamend.sh
           
+      - name: Remove in next major version
+        run: rm initializeamend.sh
+          
       - name: Setup tmate session for validation
         uses: mxschmitt/action-tmate@v3
 
