@@ -1,4 +1,4 @@
-msbuild (1:16.10.1-0ppa2) UNRELEASED; urgency=medium
+msbuild (1:16.10.1-0ppa2) focal; urgency=medium
 
   * Fixed build failure
 
