@@ -1,3 +1,3 @@
-[submodule "linux-packaging-msbuild"]
-	path = linux-packaging-msbuild
-	url = https://github.com/mono/linux-packaging-msbuild
+[submodule "msbuild"]
+	path = msbuild
+	url = https://github.com/EoflaOE/msbuild.git
