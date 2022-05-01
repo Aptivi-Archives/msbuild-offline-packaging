@@ -34,7 +34,7 @@ jobs:
         uses: mxschmitt/action-tmate@v3
 
       - name: Build source package
-        run: debuild -S --no-lintian
+        run: debuild --no-lintian -S
           
       - name: Setup tmate session for second validation
         uses: mxschmitt/action-tmate@v3
