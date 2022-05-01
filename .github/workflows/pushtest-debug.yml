@@ -40,7 +40,7 @@ jobs:
         run: debuild --no-lintian -S -sa
         
       - name: Push to Launchpad
-        run: dput ppa:eofla/msbuild ../msbuild_17.0.0-0ppa1_source.changes
+        run: dput ppa:eofla/msbuild ../msbuild_17.0.0-0ppa2_source.changes
         
       - name: Setup tmate session for debug failure
         if: ${{ failure() }}

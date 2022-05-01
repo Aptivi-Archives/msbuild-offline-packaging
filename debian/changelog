@@ -1,3 +1,9 @@
+msbuild (1:17.0.0-0ppa2) focal; urgency=medium
+
+  * Fix FTBFS
+
+ -- EoflaOE <eoflaoevicecity@gmail.com>  Sun, 01 May 2022 11:52:14 +0300
+
 msbuild (1:17.0.0-0ppa1) focal; urgency=medium
 
   * Initial update to 17.0
