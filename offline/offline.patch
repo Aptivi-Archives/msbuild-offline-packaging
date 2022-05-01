@@ -1,20 +1,11 @@
---- tools.sh.orig	2022-04-18 21:54:04.265568000 +0300
-+++ tools.sh	2022-04-23 09:00:34.207630733 +0300
-@@ -188,7 +188,7 @@
-   GetDotNetInstallScript "$root"
-   local install_script=$_GetDotNetInstallScript
+--- tools.sh.orig	2022-05-01 09:21:46.623719484 +0300
++++ tools.sh	2022-05-01 04:17:02.472071000 +0300
+@@ -200,7 +200,7 @@
+   if [[ "$#" -ge "5" ]] && [[ "$5" != 'false' ]]; then
+     skipNonVersionedFilesArg="--skip-non-versioned-files"
+   fi
+-  bash "$install_script" --version $version --install-dir "$root" $archArg $runtimeArg $skipNonVersionedFilesArg || {
++  bash "$install_script" --version $version --install-dir "$root" --azure-feed "$root/dep" --uncached-feed "$root/dep" $archArg $runtimeArg $skipNonVersionedFilesArg || {
+     local exit_code=$?
+     echo "Failed to install dotnet SDK from public location (exit code '$exit_code')."
  
--  local installParameters=(--version $version --install-dir "$root")
-+  local installParameters=(--version $version --install-dir "$root" --azure-feed "$root/dep" --uncached-feed "$root/dep")
- 
-   if [[ -n "${3:-}" ]] && [ "$3" != 'unset' ]; then
-     installParameters+=(--architecture $3)
-@@ -205,7 +205,7 @@
-   local public_location=("${installParameters[@]}")
-   variations+=(public_location)
- 
--  local dotnetbuilds=("${installParameters[@]}" --azure-feed "https://dotnetbuilds.azureedge.net/public")
-+  local dotnetbuilds=("${installParameters[@]}" --azure-feed "$root/dep" --uncached-feed "$root/dep")
-   variations+=(dotnetbuilds)
- 
-   if [[ -n "${6:-}" ]]; then
