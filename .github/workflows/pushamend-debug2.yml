@@ -25,8 +25,8 @@ jobs:
         
       - name: Download and extract original source
         run: |
-          wget --output-document=../msbuild_16.10.1.orig.tar.xz https://launchpad.net/~eofla/+archive/ubuntu/msbuild/+sourcefiles/msbuild/1:16.10.1-0ppa1/msbuild_16.10.1.orig.tar.xz
-          tar xf ../msbuild_16.10.1.orig.tar.xz ./linux-packaging-msbuild
+          wget --output-document=../msbuild_17.0.0.orig.tar.xz https://launchpad.net/~eofla/+archive/ubuntu/msbuild/+sourcefiles/msbuild/1:17.0.0-0ppa1/msbuild_17.0.0.orig.tar.xz
+          tar xf ../msbuild_17.0.0.orig.tar.xz ./linux-packaging-msbuild
           mv .github ..
           ./initializeamend.sh
           
@@ -43,7 +43,7 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         
       - name: Push to Launchpad
-        run: dput ppa:eofla/msbuild ../msbuild_16.10.1-0ppa2_source.changes
+        run: dput ppa:eofla/msbuild ../msbuild_17.0.0-0ppa2_source.changes
           
       - name: Setup tmate session for debug failure
         if: ${{ failure() }}
