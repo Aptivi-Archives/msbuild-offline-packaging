@@ -11,9 +11,9 @@ if [ "$1" == "--generate-essentials-archive" ]; then
 fi
 
 # Source ./eng/common/tools.sh
-echo "- Sourcing ./linux-packaging-msbuild/eng/common/tools.sh..."
-echo "  - . ./linux-packaging-msbuild/eng/common/tools.sh"
-. ./linux-packaging-msbuild/eng/common/tools.sh
+echo "- Sourcing ./msbuild/eng/common/tools.sh..."
+echo "  - . ./msbuild/eng/common/tools.sh"
+. ./msbuild/eng/common/tools.sh
 
 # Check for components inside ./offline folder
 echo "- Checking ./offline/ folder to see if required components exist..."
@@ -50,18 +50,6 @@ if [ ! -e "./offline/.dotnet/dep/Sdk/${dotnet_sdk_version}/" ]; then
         echo "  - .dotnet/dep/Sdk/${dotnet_sdk_version} not found. creating..."
         mkdir "./offline/.dotnet/dep/Sdk/${dotnet_sdk_version}"
 fi
-# .dotnet/dep/Runtime
-echo "  - .dotnet/dep/Runtime/..."
-if [ ! -e "./offline/.dotnet/dep/Runtime/" ]; then
-        echo "  - .dotnet/dep/Runtime/ not found. creating..."
-        mkdir "./offline/.dotnet/dep/Runtime"
-fi
-# .dotnet/dep/Runtime/2.1.7
-echo "  - .dotnet/dep/Runtime/2.1.7..."
-if [ ! -e "./offline/.dotnet/dep/Runtime/2.1.7/" ]; then
-        echo "  - .dotnet/dep/Runtime/2.1.7 not found. creating..."
-        mkdir "./offline/.dotnet/dep/Runtime/2.1.7"
-fi
 
 # Check for required files
 echo "- Determining what files to download..."
@@ -72,43 +60,29 @@ if [ ! -e "./offline/.dotnet/dep/Sdk/${dotnet_sdk_version}/dotnet-sdk-${dotnet_s
         echo "  - dotnet-sdk-${dotnet_sdk_version}-linux-x64.tar.gz not found. downloading..."
         wget --continue --output-document="./offline/.dotnet/dep/Sdk/${dotnet_sdk_version}/dotnet-sdk-${dotnet_sdk_version}-linux-x64.tar.gz" "https://dotnetcli.azureedge.net/dotnet/Sdk/${dotnet_sdk_version}/dotnet-sdk-${dotnet_sdk_version}-linux-x64.tar.gz"
 fi
-# .dotnet/dep/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.tar.gz
-echo "  - .dotnet/dep/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.tar.gz..."
-if [ ! -e "./offline/.dotnet/dep/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.tar.gz" ]; then
-	echo "  - dotnet-runtime-2.1.7-linux-x64.tar.gz not found. downloading..."
-	wget --continue --output-document="./offline/.dotnet/dep/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.tar.gz" "https://dotnetcli.azureedge.net/dotnet/Runtime/2.1.7/dotnet-runtime-2.1.7-linux-x64.tar.gz"
-fi
 
-# Some fixups
-echo "- Removing stray debian folder from linux-packaging-msbuild..."
-echo "  - rm -R linux-packaging-msbuild/debian"
-rm -R linux-packaging-msbuild/debian
-echo "- Fixing \"bashisms\"..."
-echo "  - patch -d linux-packaging-msbuild -i `pwd`/offline/fix_bashisms.patch -p 1"
-patch -d linux-packaging-msbuild -i `pwd`/offline/fix_bashisms.patch -p 1
-
-# Copy required files from offline to linux-packaging-msbuild
+# Copy required files from offline to msbuild
 echo "- Copying .dotnet..."
-echo "  - cp -R offline/.dotnet linux-packaging-msbuild/"
-cp -R offline/.dotnet linux-packaging-msbuild/
+echo "  - cp -R offline/.dotnet msbuild/"
+cp -R offline/.dotnet msbuild/
 
 # Patch tools.sh to use "--azure-feed "$root/dep" --uncached-feed "$root/dep""
 echo "- Patching tools.sh..."
-echo "  - patch -i offline/offline.patch linux-packaging-msbuild/eng/common/tools.sh"
-patch -i offline/offline.patch linux-packaging-msbuild/eng/common/tools.sh
+echo "  - patch -i offline/offline.patch msbuild/eng/common/tools.sh"
+patch -i offline/offline.patch msbuild/eng/common/tools.sh
 
 # Restore packages
 echo "- Restoring packages..."
-echo "  - cd linux-packaging-msbuild"
-cd linux-packaging-msbuild
+echo "  - cd msbuild"
+cd msbuild
 echo "  - HOME=`pwd`/nuget ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true"
 HOME=`pwd`/nuget ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true
 if [ "$?" -ne 0 ]; then
 	exit $?
 fi
 
-# Copy dependencies to linux-packaging-msbuild/deps
-echo "- Copying dependencies to linux-packaging-msbuild/deps..."
+# Copy dependencies to msbuild/deps
+echo "- Copying dependencies to msbuild/deps..."
 echo "  - mkdir deps"
 mkdir deps
 echo "  - cp -R ./nuget/.nuget/packages/* ./deps/"

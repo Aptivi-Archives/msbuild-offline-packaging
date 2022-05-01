@@ -1,3 +1,3 @@
 [submodule "msbuild"]
 	path = msbuild
-	url = https://github.com/EoflaOE/msbuild.git
+	url = https://github.com/EoflaOE/msbuild

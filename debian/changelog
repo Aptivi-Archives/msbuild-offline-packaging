@@ -1,3 +1,11 @@
+msbuild (1:17.0.0-0ppa1) jammy; urgency=medium
+
+  * Initial update to 17.0
+  * Please note that it isn't ready to build .NET 5 or 6 projects yet. We'll
+  * work on it as time allows.
+
+ -- EoflaOE <eoflaoevicecity@gmail.com>  Sun, 01 May 2022 08:55:00 +0300
+
 msbuild (1:16.10.1-0ppa2) focal; urgency=medium
 
   * Fixed build failure
