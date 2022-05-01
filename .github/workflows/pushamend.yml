@@ -34,7 +34,7 @@ jobs:
         run: rm initializeamend.sh
 
       - name: Build source package
-        run: debuild -S
+        run: debuild -S --no-lintian
         
       - name: Push to Launchpad
         run: dput ppa:eofla/msbuild ../msbuild_17.0.0-0ppa2_source.changes
