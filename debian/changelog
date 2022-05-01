@@ -1,4 +1,4 @@
-msbuild (1:17.0.0-0ppa1) jammy; urgency=medium
+msbuild (1:17.0.0-0ppa1) focal; urgency=medium
 
   * Initial update to 17.0
   * Please note that it isn't ready to build .NET 5 or 6 projects yet. We'll
