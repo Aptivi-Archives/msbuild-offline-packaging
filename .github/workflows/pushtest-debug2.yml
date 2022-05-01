@@ -40,7 +40,7 @@ jobs:
           mv ../debian .
 
       - name: Build source package
-        run: debuild -S -sa --no-lintian
+        run: debuild --no-lintian -S -sa
         
       - name: Push to Launchpad
         run: dput ppa:eofla/msbuild ../msbuild_17.0.0-0ppa1_source.changes
