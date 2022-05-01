@@ -25,7 +25,7 @@ jobs:
         
       - name: Try to build
         run: |
-          cd linux-packaging-msbuild
+          cd msbuild
           sudo ip netns exec no-net ./eng/cibuild_bootstrapped_msbuild.sh --host_type mono --configuration Release --skip_tests /p:DisableNerdbankVersioning=true
           
       - name: Setup tmate session for debug failure

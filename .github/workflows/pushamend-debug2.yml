@@ -26,7 +26,7 @@ jobs:
       - name: Download and extract original source
         run: |
           wget --output-document=../msbuild_17.0.0.orig.tar.xz https://launchpad.net/~eofla/+archive/ubuntu/msbuild/+sourcefiles/msbuild/1:17.0.0-0ppa1/msbuild_17.0.0.orig.tar.xz
-          tar xf ../msbuild_17.0.0.orig.tar.xz ./linux-packaging-msbuild
+          tar xf ../msbuild_17.0.0.orig.tar.xz ./msbuild
           mv .github ..
           ./initializeamend.sh
           

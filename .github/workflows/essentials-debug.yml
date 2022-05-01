@@ -30,7 +30,7 @@ jobs:
           path: |
             Essentials.tar.xz
             offline/.dotnet
-            linux-packaging-msbuild/artifacts
+            msbuild/artifacts
           
       - name: Setup tmate session for debug failure
         if: ${{ failure() }}
