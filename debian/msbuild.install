@@ -4,7 +4,6 @@
 /usr/lib/mono/xbuild/*.dll*
 /usr/lib/mono/msbuild/Current/bin/Sdks/
 /usr/lib/mono/msbuild/Current/bin/SdkResolvers/Microsoft.Build.NuGetSdkResolver
-/usr/lib/mono/msbuild/Current/bin/SdkResolvers/Microsoft.DotNet.MSBuildSdkResolver/
 /usr/lib/mono/msbuild/Current/bin/*.config
 /usr/lib/mono/msbuild/Current/bin/*.dll
 /usr/lib/mono/msbuild/Current/bin/*.json

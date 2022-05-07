@@ -1,3 +1,10 @@
+msbuild (1:17.0.0-0ppa3) jammy; urgency=medium
+
+  * Separate MSBuildSdkResolver until investigation is done regarding the
+    sudden build failure
+
+ -- EoflaOE <eoflaoevicecity@gmail.com>  Sat, 07 May 2022 12:12:51 +0300
+
 msbuild (1:17.0.0-0ppa2) focal; urgency=medium
 
   * Fix FTBFS
